@@ -137,7 +137,7 @@ class _DashboardView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome, ${user?.displayName ?? "there"}',
+                          'Welcome, ${user?.email ?? "there"}',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 4),

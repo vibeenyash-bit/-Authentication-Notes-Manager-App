@@ -29,7 +29,6 @@ class DefaultFirebaseOptions {
     projectId: 'notes-manager-cd97b',
     storageBucket: 'notes-manager-cd97b.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDmU_zki6gDTXs7xKOKIB8tzeobqzlTZY8',
     appId: '1:169354239547:ios:8705c6f61612586824861e',
