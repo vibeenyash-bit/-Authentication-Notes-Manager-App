@@ -17,8 +17,9 @@ class DashboardScreen extends StatelessWidget {
     final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     return BlocProvider<NotesBloc>(
-      create: (_) => NotesBloc(dataSource: NotesRemoteDataSource())
-        ..add(NotesSubscriptionRequested(userId)),
+      create: (_) =>
+          NotesBloc(dataSource: NotesRemoteDataSource())
+            ..add(NotesSubscriptionRequested(userId)),
       child: const _DashboardView(),
     );
   }
@@ -28,6 +29,7 @@ class _DashboardView extends StatelessWidget {
   const _DashboardView();
 
   void _logout(BuildContext context) {
+    context.read<NotesBloc>().add(const NotesUnsubscribeRequested());
     context.read<AuthBloc>().add(const AuthLogoutRequested());
   }
 
@@ -70,18 +72,18 @@ class _DashboardView extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const LoginScreen()),
               );
             } else if (state is AuthFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
         ),
         BlocListener<NotesBloc, NotesState>(
           listener: (context, state) {
             if (state is NotesError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
         ),

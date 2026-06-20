@@ -57,6 +57,10 @@ class NoteAddRequested extends NotesEvent {
   List<Object?> get props => [userId, title, description];
 }
 
+class NotesUnsubscribeRequested extends NotesEvent {
+  const NotesUnsubscribeRequested();
+}
+
 class NoteUpdateRequested extends NotesEvent {
   final String noteId;
   final String title;
@@ -145,6 +149,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<_NotesUpdated>(_onNotesUpdated);
     on<_NotesStreamFailed>((event, emit) => emit(NotesError(event.message)));
     on<NoteAddRequested>(_onAddRequested);
+    on<NotesUnsubscribeRequested>(_onUnsubscribeRequested);
     on<NoteUpdateRequested>(_onUpdateRequested);
     on<NoteDeleteRequested>(_onDeleteRequested);
   }
@@ -200,6 +205,14 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     } catch (e) {
       emit(NotesError('Failed to add note: $e'));
     }
+  }
+
+    Future<void> _onUnsubscribeRequested(
+    NotesUnsubscribeRequested event,
+    Emitter<NotesState> emit,
+  ) async {
+    await _subscription?.cancel();
+    _subscription = null;
   }
 
   Future<void> _onUpdateRequested(
